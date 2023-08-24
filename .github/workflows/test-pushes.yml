@@ -20,10 +20,6 @@ jobs:
         with:
           ref: ${{ github.ref }}
           fetch-depth: 0
-      # - name: Set Git Config
-      #   run: |
-      #     git config --local user.email 38288322+imodeljs-admin@users.noreply.github.com
-      #     git config --local user.name imodeljs-admin
       - name: Run update-changelogs.mjs
         run: |
           git branch --show-current
