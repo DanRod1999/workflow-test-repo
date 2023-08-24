@@ -1,0 +1,34 @@
+# Triggered on a new release git tag pushed, starts the final steps of a release.
+#
+# Steps currently include
+#   1. Updating master changelogs using JS script
+
+name: Finalize Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+    - 'release/*'
+
+jobs:
+  finalize:
+    name: Cherry-pick Changelogs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+      - name: Set Git Config
+        run: |
+          git config --local user.email 38288322+imodeljs-admin@users.noreply.github.com
+          git config --local user.name imodeljs-admin
+      - name: Run update-changelogs.mjs
+        run: |
+          git branch --show-current
+          # npm i -g zx
+          # npm install -g @microsoft/rush
+          # zx ./.github/workflows/automation-scripts/update-changelogs.mjs
+        # turn off the default behavior to fail fast. The script has its own error handling
+        shell: bash {0}
