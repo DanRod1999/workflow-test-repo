@@ -16,10 +16,15 @@ jobs:
     name: Cherry-pick Changelogs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
+          token: ${{ secrets.TOKEN_TEST }}
           fetch-depth: 0
+      - name: Set Git Config
+        run: |
+          git config --local user.email daniel.rodriguez@users.noreply.github.com
+          git config --local user.name DanRod1999
       - name: Run update-changelogs.mjs
         run: |
           git branch --show-current
