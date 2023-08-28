@@ -62,12 +62,14 @@ if (targetBranch === `origin/${currentBranch}`) {
 // // the version should match your incoming branch
 // // await $`git checkout -b finalize-release-X.X.X`;
 // /*********************************************************************/
-// await $`git add .`;
-// await $`git commit -m "${commitMessage} Changelogs"`;
+await $`echo "test-echo" >> test-echo.txt`;
+await $`git add .`;
+await $`git commit -m "${commitMessage} Changelogs"`;
 // await $`rush change --bulk --message "" --bump-type none`;
 // await $`git add .`;
 // await $`git commit --amend --no-edit`;
-// await $`git push`
+targetBranch.replace("origin/", "");
+await $`git push HEAD:${targetBranch}`
 
 // // Read all files in the directory
 // function getFilePaths(directoryPath) {
