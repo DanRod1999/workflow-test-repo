@@ -75,7 +75,6 @@ await $`git commit -m "${commitMessage} Changelogs"`;
 // await $`rush change --bulk --message "" --bump-type none`;
 // await $`git add .`;
 // await $`git commit --amend --no-edit`;
-targetBranch = 'main';
 await $`git push origin HEAD:${targetBranch}`;
 
 // // Read all files in the directory
