@@ -30,6 +30,7 @@ jobs:
         run: |
           git branch --show-current
           git branch -a --list
+          git config --list
           npm i -g zx
           # npm install -g @microsoft/rush
           zx ./.github/workflows/automation-scripts/update-changelogs.mjs
