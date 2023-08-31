@@ -23,7 +23,7 @@ const incomingPath = "./temp-incoming-changelogs"
 // await $`mkdir ${incomingPath}`
 
 // find the latest release branch, and make that the target for the changelogs
-let targetBranch = `release/test.1`;
+let targetBranch = `release/test.2`;
 let currentBranch = await $`git branch --show-current`;
 let commitMessage = await $`git log --format=%B -n 1`;
 
