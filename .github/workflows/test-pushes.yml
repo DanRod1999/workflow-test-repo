@@ -8,8 +8,8 @@ name: Finalize Release
 on:
   workflow_dispatch:
   push:
-    tags:
-    - 'release/*'
+    branches:
+    - 'main'
 
 jobs:
   finalize:
