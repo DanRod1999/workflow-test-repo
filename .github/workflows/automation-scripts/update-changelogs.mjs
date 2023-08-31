@@ -29,20 +29,20 @@ let currentBranch = await $`git branch --show-current`;
 let commitMessage = await $`git log --format=%B -n 1`;
 
 
-targetBranch = String(targetBranch).remove('\n');
-currentBranch = String(currentBranch).remove('\n');
-commitMessage = String(commitMessage).remove('\n');
+targetBranch = String(targetBranch).replace('\n','');
+currentBranch = String(currentBranch).replace('\n','');
+commitMessage = String(commitMessage).replace('\n','');
 
 console.log(`target branch: ${targetBranch}`);
 console.log(`current branch: ${currentBranch}`);
 console.log(`commit msg: ${commitMessage}`);
 
-if (targetBranch === `origin/${currentBranch}`) {
-  console.log("The current branch is the latest release, so the target will be master branch")
-  targetBranch = 'master'
-} else {
-  console.log(`The current branch is ${currentBranch}, so the target will be ${targetBranch} branch`)
-}
+// if (targetBranch === `origin/${currentBranch}`) {
+//   console.log("The current branch is the latest release, so the target will be master branch")
+//   targetBranch = 'master'
+// } else {
+//   console.log(`The current branch is ${currentBranch}, so the target will be ${targetBranch} branch`)
+// }
 // // copy all changelogs from the current branch to ./temp-incoming-changelogs, the files will be named: package_name_CHANGELOG.json
 // await $`find ./ -type f -name "CHANGELOG.json" -not -path "*/node_modules/*" -exec sh -c 'cp "{}" "./temp-incoming-changelogs/$(echo "{}" | sed "s/^.\\///; s/\\//_/g")"' \\;`;
 // // # copy all changelogs from the target branch to ./temp-target-changelogs, the files will be named: package_name_CHANGELOG.json
@@ -73,7 +73,7 @@ await $`git commit -m "${commitMessage} Changelogs"`;
 // await $`rush change --bulk --message "" --bump-type none`;
 // await $`git add .`;
 // await $`git commit --amend --no-edit`;
-targetBranch = 'main';;
+targetBranch = 'main';
 await $`git push origin HEAD:${targetBranch}`;
 
 // // Read all files in the directory
