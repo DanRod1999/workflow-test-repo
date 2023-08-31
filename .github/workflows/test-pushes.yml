@@ -24,7 +24,7 @@ jobs:
           fetch-depth: 0
       - name: Set Git Config
         run: |
-          git config --local user.email daniel.rodriguez@users.noreply.github.com
+          git config --local user.email DanRod1999@users.noreply.github.com
           git config --local user.name DanRod1999
       - name: Run update-changelogs.mjs
         run: |
