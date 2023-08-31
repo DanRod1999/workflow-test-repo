@@ -23,30 +23,31 @@ const incomingPath = "./temp-incoming-changelogs"
 // await $`mkdir ${incomingPath}`
 
 // find the latest release branch, and make that the target for the changelogs
-// let targetBranch = await $`git branch -a --list "origin/release/[0-9]*.[0-9]*.x" | tail -n1 | sed 's/  remotes\\///'`;
-let targetBranch = 'main';
+let targetBranch = await $`release/test.1`;
 let currentBranch = await $`git branch --show-current`;
 let commitMessage = await $`git log --format=%B -n 1`;
 
-
-targetBranch = String(targetBranch).replace('\n','');
-currentBranch = String(currentBranch).replace('\n','');
-commitMessage = String(commitMessage).replace('\n','');
+// remove extra null and new line characters from git cmds
+targetBranch = String(targetBranch).replace('\n', '');
+currentBranch = String(currentBranch).replace('\n', '');
+commitMessage = String(commitMessage).replace('\n', '');
 
 console.log(`target branch: ${targetBranch}`);
 console.log(`current branch: ${currentBranch}`);
 console.log(`commit msg: ${commitMessage}`);
 
-// if (targetBranch === `origin/${currentBranch}`) {
-//   console.log("The current branch is the latest release, so the target will be master branch")
-//   targetBranch = 'master'
-// } else {
-//   console.log(`The current branch is ${currentBranch}, so the target will be ${targetBranch} branch`)
-// }
+if (targetBranch === `origin/${currentBranch}`) {
+  console.log("The current branch is the latest release, so the target will be master branch")
+  targetBranch = 'main'
+} else {
+  console.log(`The current branch is ${currentBranch}, so the target will be ${targetBranch} branch`)
+}
 // // copy all changelogs from the current branch to ./temp-incoming-changelogs, the files will be named: package_name_CHANGELOG.json
 // await $`find ./ -type f -name "CHANGELOG.json" -not -path "*/node_modules/*" -exec sh -c 'cp "{}" "./temp-incoming-changelogs/$(echo "{}" | sed "s/^.\\///; s/\\//_/g")"' \\;`;
-// // # copy all changelogs from the target branch to ./temp-target-changelogs, the files will be named: package_name_CHANGELOG.json
-// await $`git checkout ${targetBranch}`;
+
+targetBranch = targetBranch.replace("origin/", "");
+await $`git checkout ${targetBranch}`;
+// // copy all changelogs from the target branch to ./temp-target-changelogs, the files will be named: package_name_CHANGELOG.json
 // await $`find ./ -type f -name "CHANGELOG.json" -not -path "*/node_modules/*" -exec sh -c 'cp "{}" "./temp-target-changelogs/$(echo "{}" | sed "s/^.\\///; s/\\//_/g")"' \\;`;
 
 // const currentFiles = getFilePaths(targetPath);
@@ -62,11 +63,12 @@ console.log(`commit msg: ${commitMessage}`);
 // await $`rm -r ${incomingPath}`;
 // // # regen CHANGELOG.md
 // await $`rush publish --regenerate-changelogs`;
-// /*********************************************************************/
-// // Uncomment For Manual runs and fix branch name to appropriate version
-// // the version should match your incoming branch
-// // await $`git checkout -b finalize-release-X.X.X`;
-// /*********************************************************************/
+/*********************************************************************/
+// Uncomment For Manual runs and fix branch name to appropriate version
+// the version should match your incoming branch
+// await $`git checkout -b finalize-release-X.X.X`;
+// targetBranch = "finalize-release-X.X.X"
+/*********************************************************************/
 await $`echo "test-echo" >> test-echo.txt`;
 await $`git add .`;
 await $`git commit -m "${commitMessage} Changelogs"`;
